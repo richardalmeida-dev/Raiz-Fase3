@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raiz · Caderno de campo digital</title>
+  <meta name="description" content="Raiz: caderno de campo digital para a agricultura familiar. Protótipo das telas, PBL Fase 3 FIAP.">
+  <link rel="icon" href="./images/raiz-folha.svg">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="bg-areia font-inter text-texto antialiased dark:bg-noite dark:text-slate-100">
+
+  <!-- ===================== CABEÇALHO E MENU ===================== -->
+  <header class="sticky top-0 z-20 border-b border-borda bg-white/95 dark:border-noite-borda dark:bg-noite/95">
+    <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
+      <button type="button" data-secao="inicio" class="flex items-center gap-2 text-2xl font-extrabold tracking-tight text-raiz dark:text-broto" aria-label="Raiz, ir para o início">
+        <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20C4 11.5 10.5 4.6 20.5 3.5C19.5 13.5 13 20 5 20M4.5 20C8.5 16 12.5 13 17 11.2"/></svg> Raiz
+      </button>
+
+      <!-- No celular o menu vira uma barra fixa embaixo (como num app). A partir de md (768px) ele fica no topo. -->
+      <nav id="menu" aria-label="Menu principal" class="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-borda bg-white dark:border-noite-borda dark:bg-noite md:static md:ml-4 md:flex md:gap-1 md:border-0 md:bg-transparent">
+        <button type="button" data-secao="inicio" class="botao-menu flex flex-col items-center gap-1 py-2 text-xs font-semibold text-texto-2 duration-300 hover:text-raiz dark:text-slate-300 md:flex-row md:gap-2 md:rounded-xl md:px-3 md:text-sm"><svg class="size-6 md:size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11L12 3.5L20.5 11M5.5 9.5V20.5H18.5V9.5M10 20.5V14.5H14V20.5"/></svg>Início</button>
+        <button type="button" data-secao="registrar" class="botao-menu flex flex-col items-center gap-1 py-2 text-xs font-semibold text-texto-2 duration-300 hover:text-raiz dark:text-slate-300 md:flex-row md:gap-2 md:rounded-xl md:px-3 md:text-sm"><svg class="size-6 md:size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5C10.3 2.5 9 3.8 9 5.5V11.5C9 13.2 10.3 14.5 12 14.5C13.7 14.5 15 13.2 15 11.5V5.5C15 3.8 13.7 2.5 12 2.5ZM5 10.5C5 14.4 8.1 17.5 12 17.5C15.9 17.5 19 14.4 19 10.5M12 17.5V21.5M8.5 21.5H15.5"/></svg>Registrar</button>
+        <button type="button" data-secao="talhoes" class="botao-menu flex flex-col items-center gap-1 py-2 text-xs font-semibold text-texto-2 duration-300 hover:text-raiz dark:text-slate-300 md:flex-row md:gap-2 md:rounded-xl md:px-3 md:text-sm"><svg class="size-6 md:size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20C4 11.5 10.5 4.6 20.5 3.5C19.5 13.5 13 20 5 20M4.5 20C8.5 16 12.5 13 17 11.2"/></svg>Talhões</button>
+        <button type="button" data-secao="procedencia" class="botao-menu flex flex-col items-center gap-1 py-2 text-xs font-semibold text-texto-2 duration-300 hover:text-raiz dark:text-slate-300 md:flex-row md:gap-2 md:rounded-xl md:px-3 md:text-sm"><svg class="size-6 md:size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3H9.5V9.5H3ZM14.5 3H21V9.5H14.5ZM3 14.5H9.5V21H3ZM14.5 14.5H17M21 14.5V18M14.5 18V21H18M21 21H21.01"/></svg>Procedência</button>
+        <button type="button" data-secao="contato" class="botao-menu flex flex-col items-center gap-1 py-2 text-xs font-semibold text-texto-2 duration-300 hover:text-raiz dark:text-slate-300 md:flex-row md:gap-2 md:rounded-xl md:px-3 md:text-sm"><svg class="size-6 md:size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5C9.8 3.5 8 5.3 8 7.5C8 9.7 9.8 11.5 12 11.5C14.2 11.5 16 9.7 16 7.5C16 5.3 14.2 3.5 12 3.5ZM4.5 20.5C4.5 16.4 7.9 13.5 12 13.5C16.1 13.5 19.5 16.4 19.5 20.5"/></svg>Fale Conosco</button>
+      </nav>
+
+      <!-- Botão do modo escuro: igual ao exemplo da apostila (classList.toggle('dark') no <html>) -->
+      <button type="button" id="btn-tema" class="ml-auto rounded-xl border border-borda p-2 text-texto-2 duration-300 hover:border-raiz hover:text-raiz dark:border-noite-borda dark:text-slate-300" aria-label="Alternar modo escuro">
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5C19.3 15.1 18 15.4 16.6 15.4C11.9 15.4 8.1 11.6 8.1 6.9C8.1 5.5 8.4 4.2 9 3C5.5 4.3 3 7.7 3 11.6C3 16.8 7.2 21 12.4 21C16.3 21 19.7 18.5 21 15Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8 pb-28 md:pb-12">
+
+    <!-- ===================== 1. INÍCIO (HOME) ===================== -->
+    <section id="secao-inicio" class="secao" aria-labelledby="titulo-inicio">
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6 lg:col-span-2">
+
+          <div class="rounded-3xl bg-[url('../images/cena-lavoura.svg')] bg-cover bg-center p-4 sm:p-6">
+            <div class="max-w-md rounded-2xl bg-white/90 p-5 dark:bg-noite/90">
+              <p class="text-sm font-semibold text-texto-2 dark:text-slate-300" id="data-hoje">Hoje</p>
+              <h1 id="titulo-inicio" class="text-3xl font-extrabold tracking-tight">Bom dia, seu João</h1>
+              <p class="text-texto-2 dark:text-slate-300">Sítio Boa Esperança · Cravinhos, SP</p>
+            </div>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <button type="button" data-secao="registrar" class="flex items-center gap-4 rounded-2xl bg-raiz p-5 text-left text-white duration-300 hover:bg-raiz-escuro">
+              <svg class="size-9 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5C10.3 2.5 9 3.8 9 5.5V11.5C9 13.2 10.3 14.5 12 14.5C13.7 14.5 15 13.2 15 11.5V5.5C15 3.8 13.7 2.5 12 2.5ZM5 10.5C5 14.4 8.1 17.5 12 17.5C15.9 17.5 19 14.4 19 10.5M12 17.5V21.5M8.5 21.5H15.5"/></svg>
+              <span><strong class="block text-xl">Registrar aplicação</strong><span class="text-sm text-folha">Fale ou digite o que você aplicou</span></span>
+            </button>
+            <button type="button" data-secao="talhoes" class="flex items-center gap-4 rounded-2xl border-2 border-raiz bg-white p-5 text-left text-raiz duration-300 hover:bg-folha dark:border-broto dark:bg-noite-card dark:text-broto">
+              <svg class="size-9 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3H9.5V9.5H3ZM14.5 3H21V9.5H14.5ZM3 14.5H9.5V21H3ZM14.5 14.5H17M21 14.5V18M14.5 18V21H18M21 21H21.01"/></svg>
+              <span><strong class="block text-xl">Colher e gerar etiqueta</strong><span class="text-sm text-texto-2 dark:text-slate-300">Cria o lote com QR Code</span></span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="rounded-2xl border border-borda bg-white p-4 text-center dark:border-noite-borda dark:bg-noite-card">
+              <p id="total-registros" class="text-3xl font-extrabold">0</p>
+              <p class="text-sm text-texto-2 dark:text-slate-300">aplicações</p>
+            </div>
+            <div class="rounded-2xl border border-borda bg-white p-4 text-center dark:border-noite-borda dark:bg-noite-card">
+              <p id="total-lotes" class="text-3xl font-extrabold">0</p>
+              <p class="text-sm text-texto-2 dark:text-slate-300">lotes</p>
+            </div>
+            <div class="rounded-2xl border border-borda bg-white p-4 text-center dark:border-noite-borda dark:bg-noite-card">
+              <p id="total-carencia" class="text-3xl font-extrabold text-atencao">0</p>
+              <p class="text-sm text-texto-2 dark:text-slate-300">em carência</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 class="mb-3 text-xl font-bold">Seus talhões</h2>
+            <div id="inicio-talhoes" class="grid gap-3 sm:grid-cols-2"></div>
+          </div>
+
+          <div class="rounded-2xl border border-borda bg-white p-5 dark:border-noite-borda dark:bg-noite-card">
+            <h2 class="mb-3 text-xl font-bold">Últimos registros</h2>
+            <ul id="inicio-ultimos" class="divide-y divide-borda dark:divide-noite-borda"></ul>
+          </div>
+        </div>
+
+        <aside class="flex flex-col gap-6" aria-label="Pitch vídeo e ajuda">
+          <div id="video" class="rounded-2xl border border-borda bg-white p-5 dark:border-noite-borda dark:bg-noite-card">
+            <h2 class="flex items-center gap-2 text-xl font-bold"><svg class="size-6 text-raiz dark:text-broto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3C7 3 3 7 3 12C3 17 7 21 12 21C17 21 21 17 21 12C21 7 17 3 12 3ZM10 8.5V15.5L15.5 12Z"/></svg> Pitch vídeo</h2>
+            <p class="mb-3 text-sm text-texto-2 dark:text-slate-300">A navegação por todas as telas do Raiz.</p>
+            <!-- PITCH VÍDEO: vídeo de navegação publicado no YouTube (ID I5J52yaLe0c).
+                 Para trocar o vídeo, mude o ID no src do iframe e no href do link abaixo.
+                 O referrerpolicy é o mesmo do código de incorporação do YouTube: sem ele o player pode recusar a página. -->
+            <iframe class="aspect-video w-full rounded-xl bg-noite" src="https://www.youtube.com/embed/I5J52yaLe0c" title="Pitch vídeo do Raiz: navegação pelas telas" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <p class="mt-3 text-sm">Link do vídeo: <a id="link-video" href="https://youtu.be/I5J52yaLe0c" target="_blank" rel="noopener" class="font-semibold text-raiz underline dark:text-broto">youtu.be/I5J52yaLe0c</a></p>
+          </div>
+          <div class="rounded-2xl bg-folha p-5 dark:bg-noite-card">
+            <h2 class="font-bold">Como usar</h2>
+            <ul class="mt-2 list-disc pl-5 text-sm text-texto-2 dark:text-slate-300">
+              <li>Registre cada aplicação no dia em que fizer.</li>
+              <li>Veja em Talhões quando pode colher.</li>
+              <li>Na colheita, gere o lote e cole a etiqueta na caixa.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== 2. REGISTRAR APLICAÇÃO ===================== -->
+    <section id="secao-registrar" class="secao hidden" aria-labelledby="titulo-registrar">
+      <h2 id="titulo-registrar" class="text-3xl font-extrabold tracking-tight">Registrar aplicação</h2>
+      <p class="mb-6 text-texto-2 dark:text-slate-300">Fale o que você aplicou na lavoura ou preencha o formulário.</p>
+
+      <div class="grid gap-6 lg:grid-cols-5">
+        <div class="flex flex-col items-center rounded-3xl bg-noite p-6 text-center text-white lg:col-span-2">
+          <p class="text-xl font-bold">Registro por voz</p>
+          <p class="text-sm text-slate-300">Toque no microfone e fale do seu jeito.</p>
+          <button type="button" id="btn-voz" class="my-6 flex size-24 items-center justify-center rounded-full bg-white text-noite duration-300 hover:scale-105" aria-label="Falar o registro">
+            <svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5C10.3 2.5 9 3.8 9 5.5V11.5C9 13.2 10.3 14.5 12 14.5C13.7 14.5 15 13.2 15 11.5V5.5C15 3.8 13.7 2.5 12 2.5ZM5 10.5C5 14.4 8.1 17.5 12 17.5C15.9 17.5 19 14.4 19 10.5M12 17.5V21.5M8.5 21.5H15.5"/></svg>
+          </button>
+          <p id="voz-status" class="min-h-12 text-slate-200">Exemplo: "Apliquei cinco litros de calda bordalesa no talhão um, hoje."</p>
+          <p class="mt-4 text-xs text-slate-400">Simulação: neste protótipo o microfone preenche o formulário com o exemplo acima.</p>
+        </div>
+
+        <form id="form-registro" class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card lg:col-span-3">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <label for="produto" class="mb-1 block font-semibold">O que você aplicou <span class="text-erro">*</span></label>
+              <select id="produto" required class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+                <option value="">Escolha o produto</option>
+              </select>
+            </div>
+            <div>
+              <label for="quantidade" class="mb-1 block font-semibold">Quanto <span class="text-erro">*</span></label>
+              <input type="number" id="quantidade" required min="0.1" max="10000" step="0.1" class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+            </div>
+            <div>
+              <label for="unidade" class="mb-1 block font-semibold">Unidade</label>
+              <select id="unidade" class="w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite">
+                <option>litros</option>
+                <option>kg</option>
+                <option>mL</option>
+                <option>g</option>
+              </select>
+            </div>
+            <div>
+              <label for="talhao" class="mb-1 block font-semibold">Onde <span class="text-erro">*</span></label>
+              <select id="talhao" required class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+                <option value="">Escolha o talhão</option>
+              </select>
+            </div>
+            <div>
+              <label for="data-aplicacao" class="mb-1 block font-semibold">Quando <span class="text-erro">*</span></label>
+              <input type="date" id="data-aplicacao" required class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+            </div>
+            <div class="sm:col-span-2">
+              <label for="receituario" class="mb-1 block font-semibold">Receituário agronômico (opcional)</label>
+              <input type="text" id="receituario" maxlength="30" placeholder="Ex.: Rec. 2026-118" class="w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite">
+            </div>
+          </div>
+          <button type="submit" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-raiz px-5 py-3 font-semibold text-white duration-300 hover:bg-raiz-escuro"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5L9.5 17.5L19.5 6.5"/></svg> Salvar registro</button>
+          <p id="registro-mensagem" class="mt-4 hidden rounded-xl bg-sucesso-fundo p-4 font-semibold text-sucesso" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== 3. TALHÕES E LOTES ===================== -->
+    <section id="secao-talhoes" class="secao hidden" aria-labelledby="titulo-talhoes">
+      <h2 id="titulo-talhoes" class="text-3xl font-extrabold tracking-tight">Talhões e lotes</h2>
+      <p class="mb-6 text-texto-2 dark:text-slate-300">Prazo de carência, colheita com etiqueta e o relatório de tudo o que foi registrado.</p>
+
+      <div id="lista-talhoes" class="grid gap-6 md:grid-cols-2"></div>
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <form id="form-colheita" class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card">
+          <h3 class="mb-4 text-xl font-bold">Colheita de hoje</h3>
+          <label for="colheita-talhao" class="mb-1 block font-semibold">Talhão</label>
+          <select id="colheita-talhao" required class="mb-4 w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"></select>
+          <label for="caixas" class="mb-1 block font-semibold">Quantas caixas?</label>
+          <input type="number" id="caixas" required min="1" max="999" value="120" class="mb-4 w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+          <label for="data-colheita" class="mb-1 block font-semibold">Data da colheita</label>
+          <input type="date" id="data-colheita" required class="mb-6 w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+          <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-raiz px-5 py-3 font-semibold text-white duration-300 hover:bg-raiz-escuro"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3H9.5V9.5H3ZM14.5 3H21V9.5H14.5ZM3 14.5H9.5V21H3ZM14.5 14.5H17M21 14.5V18M14.5 18V21H18M21 21H21.01"/></svg> Gerar lote e etiqueta</button>
+        </form>
+
+        <div class="flex flex-col items-center justify-center rounded-2xl border border-borda bg-white p-6 text-center dark:border-noite-borda dark:bg-noite-card">
+          <p id="etiqueta-vazia" class="text-texto-2 dark:text-slate-300">A etiqueta aparece aqui depois de gerar o lote.</p>
+          <div id="etiqueta" class="hidden w-full max-w-xs">
+            <div class="rounded-2xl border-2 border-dashed border-borda bg-white p-5 text-texto">
+              <p class="text-xs font-bold tracking-wide text-texto-2">SÍTIO BOA ESPERANÇA</p>
+              <img src="./images/lote-exemplo.svg" alt="QR Code do lote" class="mx-auto my-3 size-40">
+              <p id="etiqueta-codigo" class="text-xl font-extrabold">LOTE</p>
+              <p id="etiqueta-descricao" class="text-sm text-texto-2"></p>
+            </div>
+            <button type="button" id="btn-ver-procedencia" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-raiz px-5 py-3 font-semibold text-raiz duration-300 hover:bg-raiz hover:text-white dark:border-broto dark:text-broto"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4H5.5L8 15.5H18.5L20.5 7.5H6.5M9.5 19.5H9.6M17 19.5H17.1"/></svg> Ver o que o comprador vê</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card">
+        <h3 class="text-xl font-bold">Relatório de rastreabilidade</h3>
+        <p class="mb-4 text-sm text-texto-2 dark:text-slate-300">Todos os registros, do mais novo para o mais antigo. Guardados por 18 meses, como pede a norma.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[560px] text-left text-sm">
+            <thead class="text-xs uppercase tracking-wide text-texto-2 dark:text-slate-300">
+              <tr><th class="py-2 pr-3">Data</th><th class="py-2 pr-3">Talhão</th><th class="py-2 pr-3">Produto</th><th class="py-2 pr-3">Quantidade</th><th class="py-2">Receituário</th></tr>
+            </thead>
+            <tbody id="tabela-registros" class="divide-y divide-borda dark:divide-noite-borda"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. PROCEDÊNCIA ===================== -->
+    <section id="secao-procedencia" class="secao hidden" aria-labelledby="titulo-procedencia">
+      <h2 id="titulo-procedencia" class="text-3xl font-extrabold tracking-tight">Procedência do lote</h2>
+      <p class="mb-6 text-texto-2 dark:text-slate-300">É o que o comprador vê quando aponta a câmera para o QR da etiqueta.</p>
+
+      <label for="select-lote" class="mb-1 block font-semibold">Escolha o lote</label>
+      <select id="select-lote" class="mb-6 w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite sm:w-80"></select>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <div class="rounded-3xl bg-folha p-6 dark:bg-noite-card">
+            <h3 id="proc-titulo" class="text-2xl font-extrabold">Produto</h3>
+            <p id="proc-subtitulo" class="text-texto-2 dark:text-slate-300"></p>
+            <p id="proc-selo" class="mt-3 inline-flex items-center gap-1 rounded-full bg-sucesso-fundo px-3 py-1 text-sm font-semibold text-sucesso"></p>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-borda bg-white p-4 dark:border-noite-borda dark:bg-noite-card">
+              <p class="text-sm text-texto-2 dark:text-slate-300">Onde foi plantado</p>
+              <p class="font-bold">Cravinhos, São Paulo</p>
+            </div>
+            <div class="rounded-2xl border border-borda bg-white p-4 dark:border-noite-borda dark:bg-noite-card">
+              <p class="text-sm text-texto-2 dark:text-slate-300">Quem plantou</p>
+              <p class="font-bold">João da Silva</p>
+            </div>
+            <div class="rounded-2xl border border-borda bg-white p-4 dark:border-noite-borda dark:bg-noite-card">
+              <p class="text-sm text-texto-2 dark:text-slate-300">Talhão e quantidade</p>
+              <p id="proc-talhao" class="font-bold"></p>
+            </div>
+          </div>
+          <div class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card">
+            <h3 class="mb-4 text-xl font-bold">O que foi aplicado na lavoura</h3>
+            <ul id="proc-historico" class="flex flex-col gap-4"></ul>
+          </div>
+        </div>
+        <aside class="h-fit rounded-2xl border border-borda bg-white p-6 text-center dark:border-noite-borda dark:bg-noite-card" aria-label="QR Code do lote">
+          <img src="./images/lote-exemplo.svg" alt="QR Code de exemplo do lote" class="mx-auto size-48 rounded-xl bg-white p-2">
+          <p id="proc-codigo" class="mt-3 font-bold">LOTE</p>
+          <p class="mt-2 text-sm text-texto-2 dark:text-slate-300">Registros feitos pelo produtor no dia de cada aplicação.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== 5. FALE CONOSCO ===================== -->
+    <section id="secao-contato" class="secao hidden" aria-labelledby="titulo-contato">
+      <h2 id="titulo-contato" class="text-3xl font-extrabold tracking-tight">Fale Conosco</h2>
+      <p class="mb-6 text-texto-2 dark:text-slate-300">Dúvida, sugestão ou interesse em testar o Raiz. Os campos com <span class="text-erro">*</span> são obrigatórios.</p>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <!-- A validação é feita pelo próprio HTML5: required, type="email", pattern, minlength e maxlength. -->
+        <form id="form-contato" class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card lg:col-span-2">
+          <p id="contato-sucesso" class="mb-4 hidden rounded-xl bg-sucesso-fundo p-4 font-semibold text-sucesso" role="status"></p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="nome" class="mb-1 block font-semibold">Nome completo <span class="text-erro">*</span></label>
+              <input type="text" id="nome" name="nome" required minlength="5" maxlength="80" autocomplete="name" pattern="[A-Za-zÀ-ÿ ]+ [A-Za-zÀ-ÿ ]+" title="Escreva nome e sobrenome, só com letras." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+            </div>
+            <div>
+              <label for="email" class="mb-1 block font-semibold">E-mail <span class="text-erro">*</span></label>
+              <input type="email" id="email" name="email" required maxlength="120" autocomplete="email" placeholder="voce@exemplo.com" class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+            </div>
+            <div>
+              <label for="telefone" class="mb-1 block font-semibold">Celular</label>
+              <input type="tel" id="telefone" name="telefone" autocomplete="tel" maxlength="15" pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}" placeholder="(16) 99999-0000" title="Use o formato (16) 99999-0000." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+            </div>
+            <div>
+              <label for="perfil" class="mb-1 block font-semibold">Você é <span class="text-erro">*</span></label>
+              <select id="perfil" name="perfil" required class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+                <option value="">Escolha uma opção</option>
+                <option>Produtor rural</option>
+                <option>Cooperativa ou associação</option>
+                <option>Comprador, feira ou mercado</option>
+                <option>Técnico ou agrônomo</option>
+                <option>Outro</option>
+              </select>
+            </div>
+            <fieldset class="sm:col-span-2">
+              <legend class="mb-2 font-semibold">Assunto <span class="text-erro">*</span></legend>
+              <div class="flex flex-wrap gap-6">
+                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Dúvida" required class="size-4 accent-raiz"> Dúvida</label>
+                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Sugestão" class="size-4 accent-raiz"> Sugestão</label>
+                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Quero testar" id="assunto-testar" class="size-4 accent-raiz"> Quero testar o Raiz</label>
+              </div>
+            </fieldset>
+            <div class="sm:col-span-2">
+              <label for="mensagem" class="mb-1 block font-semibold">Mensagem <span class="text-erro">*</span></label>
+              <textarea id="mensagem" name="mensagem" rows="5" required minlength="20" maxlength="500" placeholder="Escreva pelo menos 20 caracteres." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite"></textarea>
+            </div>
+            <label class="flex items-start gap-2 sm:col-span-2">
+              <input type="checkbox" id="aceite" name="aceite" required class="mt-1 size-4 accent-raiz">
+              <span>Concordo que meus dados sejam usados só para responder este contato. <span class="text-erro">*</span></span>
+            </label>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-raiz px-6 py-3 font-semibold text-white duration-300 hover:bg-raiz-escuro">Enviar mensagem <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12H20M14 6L20 12L14 18"/></svg></button>
+            <button type="reset" class="inline-flex items-center justify-center rounded-xl border-2 border-raiz px-6 py-3 font-semibold text-raiz duration-300 hover:bg-raiz hover:text-white dark:border-broto dark:text-broto">Limpar</button>
+          </div>
+        </form>
+
+        <aside class="flex flex-col gap-6" aria-label="Equipe do projeto">
+          <div class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card">
+            <h3 class="mb-3 text-xl font-bold">Equipe do projeto</h3>
+            <!-- Integrantes do grupo e RMs -->
+            <ul class="divide-y divide-borda dark:divide-noite-borda">
+              <li class="flex justify-between gap-3 py-2"><span>Alexandre Oliveira Machado</span><span class="shrink-0 text-texto-2 dark:text-slate-300">RM575671</span></li>
+              <li class="flex justify-between gap-3 py-2"><span>Francisco Wellington da Silva Rodrigues</span><span class="shrink-0 text-texto-2 dark:text-slate-300">RM566700</span></li>
+              <li class="flex justify-between gap-3 py-2"><span>Luiza Eduarda Luza Neckel</span><span class="shrink-0 text-texto-2 dark:text-slate-300">RM576827</span></li>
+              <li class="flex justify-between gap-3 py-2"><span>Paulo Henrique Oliveira Freitas</span><span class="shrink-0 text-texto-2 dark:text-slate-300">RM574796</span></li>
+              <li class="flex justify-between gap-3 py-2"><span>Richard Henrique Godoy de Almeida</span><span class="shrink-0 text-texto-2 dark:text-slate-300">RM574660</span></li>
+            </ul>
+          </div>
+          <div class="rounded-2xl bg-folha p-6 text-sm dark:bg-noite-card">
+            <p class="font-bold">Projeto acadêmico</p>
+            <p class="text-texto-2 dark:text-slate-300">O formulário confere os dados, mas não envia nada. Nenhuma informação sai do seu navegador.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-6xl px-4 pb-24 text-sm text-texto-2 dark:text-slate-400 md:pb-8">
+    Raiz · caderno de campo digital · protótipo acadêmico FIAP · PBL Fase 3 · 2026. Nomes, lugares e números são dados de demonstração.
+  </footer>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
