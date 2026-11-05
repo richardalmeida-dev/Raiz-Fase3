@@ -1,0 +1,34 @@
+/* Raiz · arquivo de entrada do Tailwind (não é linkado no HTML).
+   O Tailwind lê este arquivo e as classes usadas no HTML e no JS e gera
+   o dist/css/styles.css. Para gerar: npm run build */
+
+/* Fonte Inter do Google Fonts, importada como na apostila */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* Modo escuro controlado pelo botão (classe .dark no <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Identidade visual do Raiz: as mesmas cores do guia de identidade.
+   O namespace --color- cria classes como bg-raiz, text-atencao, border-borda. */
+@theme {
+  --font-inter: Inter, sans-serif;
+
+  --color-areia: #f5f4ee;        /* fundo das telas */
+  --color-folha: #e8efe3;        /* destaques suaves */
+  --color-raiz: #2f6b3c;         /* cor principal: botões e links */
+  --color-raiz-escuro: #1f4a29;  /* hover dos botões */
+  --color-noite: #12301f;        /* fundos escuros e modo escuro */
+  --color-noite-card: #1c3a29;   /* cartões no modo escuro */
+  --color-noite-borda: #2d4d3a;  /* bordas no modo escuro */
+  --color-texto: #16211a;        /* texto principal */
+  --color-texto-2: #5a675e;      /* texto de apoio */
+  --color-borda: #d9ddd0;        /* bordas dos cartões */
+  --color-sucesso: #2a7530;      /* liberado, enviado */
+  --color-sucesso-fundo: #e3f1e4;
+  --color-atencao: #9c5413;      /* carência, pendente */
+  --color-atencao-fundo: #fbecd9;
+  --color-erro: #a8261e;         /* campos inválidos */
+  --color-terra: #8a5a2b;        /* ilustrações */
+  --color-broto: #7bc489;        /* detalhes no escuro */
+}
