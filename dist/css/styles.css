@@ -1,4 +1,73 @@
 /*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+/* =====================================================================
+   Raiz · Fase 4 — Estilos adicionais exclusivos do formulário Fale Conosco
+   Estas regras foram adicionadas sem recompilar o Tailwind porque o Node.js
+   não está disponível no ambiente de build. Elas usam as mesmas variáveis CSS
+   definidas no @theme do input.css e não afetam outras páginas.
+   ===================================================================== */
+
+/* Utilitário: sr-only — oculta visualmente, mantém para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Estados de foco dos campos do formulário Fale Conosco (Fase 4) */
+#secao-contato .fc-campo,
+#secao-contato input:not([type="radio"]):not([type="checkbox"]),
+#secao-contato select,
+#secao-contato textarea {
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#secao-contato input:not([type="radio"]):not([type="checkbox"]):focus,
+#secao-contato select:focus,
+#secao-contato textarea:focus {
+  border-color: var(--color-raiz);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-raiz) 20%, transparent);
+}
+
+/* Estado de erro: borda vermelha nos campos inválidos (via JS) */
+#secao-contato input[aria-invalid="true"],
+#secao-contato select[aria-invalid="true"],
+#secao-contato textarea[aria-invalid="true"] {
+  border-color: var(--color-erro) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-erro) 15%, transparent);
+}
+
+/* Cursor pointer nos labels de radio/checkbox para indicar interatividade */
+#secao-contato label:has(input[type="radio"]),
+#secao-contato label:has(input[type="checkbox"]),
+#secao-contato .fc-label-radio {
+  cursor: pointer;
+}
+
+/* Linha do contador: alinha erro (esquerda) e contagem (direita) */
+#secao-contato .fc-contador-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+#secao-contato #mensagem-contador {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Foco nos botões de envio/limpar */
+#secao-contato button[type="submit"]:focus-visible,
+#secao-contato button[type="reset"]:focus-visible {
+  outline: 2px solid var(--color-raiz);
+  outline-offset: 2px;
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @layer properties;
 @layer theme, base, components, utilities;

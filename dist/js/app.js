@@ -483,18 +483,295 @@ function mostrarProcedencia() {
 
 selectLote.addEventListener('change', mostrarProcedencia)
 
-// ---------- 10. Tela Fale Conosco ----------
+// ---------- 10. Tela Fale Conosco (Fase 4) ----------
+// Validação completa via JavaScript: nome completo, e-mail, mensagem com contador.
+// Nenhum dado é transmitido — protótipo acadêmico.
 
 const formContato = document.getElementById('form-contato')
-formContato.addEventListener('submit', (evento) => {
-  // A validação já foi feita pelo HTML5 (required, type="email", pattern...).
-  // Aqui só mostramos a confirmação, porque o protótipo não envia nada.
+const campoTelefone = document.getElementById('telefone')
+
+// Aceita entrada com ou sem pontuação e mantém a apresentação no padrão brasileiro.
+function formatarTelefoneContato(digitos) {
+  const ddd = digitos.slice(0, 2)
+  const numero = digitos.slice(2, 11)
+  if (digitos.length <= 2) return ddd ? `(${ddd}` : ''
+  if (numero.length <= 4) return `(${ddd}) ${numero}`
+  const tamanhoPrefixo = numero.length > 8 ? 5 : 4
+  return `(${ddd}) ${numero.slice(0, tamanhoPrefixo)}-${numero.slice(tamanhoPrefixo)}`
+}
+
+function validarTelefoneContato(valor) {
+  const digitos = valor.replace(/\D/g, '')
+  if (!digitos) return '' // celular é opcional
+  if (!/^\d{10,11}$/.test(digitos)) {
+    return 'Informe um celular com DDD e 10 ou 11 dígitos.'
+  }
+  return ''
+}
+
+campoTelefone.addEventListener('input', function() {
+  const digitos = this.value.replace(/\D/g, '').slice(0, 11)
+  this.value = formatarTelefoneContato(digitos)
+  definirErroContato('telefone', 'telefone-erro', validarTelefoneContato(this.value))
+})
+
+campoTelefone.addEventListener('blur', function() {
+  definirErroContato('telefone', 'telefone-erro', validarTelefoneContato(this.value))
+})
+
+// --- 10a. Funções auxiliares de validação ---
+
+// --- 10a. Funções auxiliares de validação ---
+
+// Exibe ou oculta a mensagem de erro de um campo.
+// Também altera a borda do input/textarea/select para indicar erro ou sucesso.
+function definirErroContato(campoId, erroId, mensagem) {
+  const campo = document.getElementById(campoId)
+  const erro = document.getElementById(erroId)
+  if (mensagem) {
+    erro.innerText = mensagem
+    erro.classList.remove('hidden')
+    campo.style.borderColor = 'var(--color-erro)'
+    campo.setAttribute('aria-invalid', 'true')
+  } else {
+    erro.innerText = ''
+    erro.classList.add('hidden')
+    campo.style.borderColor = ''
+    campo.setAttribute('aria-invalid', 'false')
+  }
+}
+
+// Validação do nome completo:
+// - Não pode estar vazio ou só com espaços.
+// - Deve ter pelo menos dois segmentos separados por espaço.
+// - Cada segmento deve ter pelo menos 2 letras (aceita acentos, cedilha e hifens).
+// - Ignora espaços excedentes entre e ao redor das palavras.
+function validarNomeContato(valor) {
+  const aparado = valor.trim().replace(/\s+/g, ' ')
+  if (!aparado) {
+    return 'Por favor, informe seu nome completo.'
+  }
+  const partes = aparado.split(' ').filter(function(p) { return p.length > 0 })
+  if (partes.length < 2) {
+    return 'Informe pelo menos um nome e um sobrenome.'
+  }
+  // Verifica se cada parte tem pelo menos 2 letras válidas (aceita letras latinas acentuadas e hifens).
+  const reLetra = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]{2,}$/
+  for (let i = 0; i < partes.length; i++) {
+    if (!reLetra.test(partes[i])) {
+      if (partes[i].length < 2) {
+        if (i === 0) {
+          return 'O nome deve ter pelo menos 2 letras.'
+        }
+        return 'O sobrenome deve ter pelo menos 2 letras.'
+      }
+      return 'Use apenas letras, acentos e hifens no nome.'
+    }
+  }
+  return '' // sem erro
+}
+
+// Validação de e-mail: campo obrigatório + formato básico.
+function validarEmailContato(valor) {
+  const aparado = valor.trim()
+  if (!aparado) {
+    return 'Por favor, informe seu e-mail.'
+  }
+  // Verificação de formato simples: algo@algo.algo
+  const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!reEmail.test(aparado)) {
+    return 'Informe um endereço de e-mail válido (ex.: nome@exemplo.com).'
+  }
+  return ''
+}
+
+// Validação da mensagem.
+function validarMensagemContato(valor) {
+  const aparado = valor.trim()
+  if (!aparado) {
+    return 'Por favor, escreva sua mensagem.'
+  }
+  if (aparado.length < 20) {
+    return `A mensagem deve ter pelo menos 20 caracteres (atual: ${aparado.length}).`
+  }
+  if (valor.length > 500) {
+    return 'A mensagem não pode ultrapassar 500 caracteres.'
+  }
+  return ''
+}
+
+// --- 10b. Contador de caracteres da mensagem ---
+
+const campoMensagem = document.getElementById('mensagem')
+const contagem = document.getElementById('mensagem-contagem')
+
+campoMensagem.addEventListener('input', function() {
+  const total = campoMensagem.value.length
+  contagem.innerText = total
+  // Aviso visual quando próximo ou no limite
+  if (total >= 480) {
+    contagem.style.color = 'var(--color-erro)'
+    contagem.style.fontWeight = '700'
+  } else if (total >= 400) {
+    contagem.style.color = 'var(--color-atencao)'
+    contagem.style.fontWeight = '600'
+  } else {
+    contagem.style.color = ''
+    contagem.style.fontWeight = ''
+  }
+})
+
+// --- 10c. Validação em tempo real (ao sair do campo) ---
+
+document.getElementById('nome').addEventListener('blur', function() {
+  definirErroContato('nome', 'nome-erro', validarNomeContato(this.value))
+})
+
+document.getElementById('email').addEventListener('blur', function() {
+  definirErroContato('email', 'email-erro', validarEmailContato(this.value))
+})
+
+campoMensagem.addEventListener('blur', function() {
+  definirErroContato('mensagem', 'mensagem-erro', validarMensagemContato(this.value))
+})
+
+// Limpa o erro do campo "perfil" quando o usuário faz uma escolha
+document.getElementById('perfil').addEventListener('change', function() {
+  if (this.value) {
+    definirErroContato('perfil', 'perfil-erro', '')
+  }
+})
+
+// Limpa o erro do assunto quando qualquer rádio é selecionado
+const radiosAssunto = document.querySelectorAll('input[name="assunto"]')
+for (let i = 0; i < radiosAssunto.length; i++) {
+  radiosAssunto[i].addEventListener('change', function() {
+    document.getElementById('assunto-erro').classList.add('hidden')
+  })
+}
+
+// --- 10d. Botão Limpar: também redefine contadores e estilos ---
+
+const btnLimpar = document.getElementById('btn-limpar-contato')
+btnLimpar.addEventListener('click', function() {
+  // Reseta todos os erros
+  const idsErros = ['nome-erro', 'email-erro', 'telefone-erro', 'perfil-erro', 'assunto-erro', 'mensagem-erro', 'aceite-erro']
+  const idsCampos = ['nome', 'email', 'telefone', 'perfil', 'mensagem', 'aceite']
+  for (let i = 0; i < idsErros.length; i++) {
+    const el = document.getElementById(idsErros[i])
+    if (el) { el.innerText = ''; el.classList.add('hidden') }
+  }
+  for (let i = 0; i < idsCampos.length; i++) {
+    const el = document.getElementById(idsCampos[i])
+    if (el) { el.style.borderColor = ''; el.removeAttribute('aria-invalid') }
+  }
+  // Reseta o contador
+  contagem.innerText = '0'
+  contagem.style.color = ''
+  contagem.style.fontWeight = ''
+  // Oculta a mensagem de sucesso
+  document.getElementById('contato-sucesso').classList.add('hidden')
+})
+
+// --- 10e. Envio do formulário: valida tudo antes de confirmar ---
+
+formContato.addEventListener('submit', function(evento) {
   evento.preventDefault()
-  const nome = document.getElementById('nome').value.trim().split(' ')[0]
+
+  // Oculta qualquer mensagem de sucesso anterior
+  document.getElementById('contato-sucesso').classList.add('hidden')
+
+  let temErro = false
+
+  // Validar nome
+  const erroNome = validarNomeContato(document.getElementById('nome').value)
+  definirErroContato('nome', 'nome-erro', erroNome)
+  if (erroNome) { temErro = true }
+
+  // Validar e-mail
+  const erroEmail = validarEmailContato(document.getElementById('email').value)
+  definirErroContato('email', 'email-erro', erroEmail)
+  if (erroEmail) { temErro = true }
+
+  // Celular opcional; quando informado, deve conter DDD e 10 ou 11 dígitos.
+  const erroTelefone = validarTelefoneContato(campoTelefone.value)
+  definirErroContato('telefone', 'telefone-erro', erroTelefone)
+  if (erroTelefone) { temErro = true }
+
+  // Validar perfil
+  const campoPerfil = document.getElementById('perfil')
+  if (!campoPerfil.value) {
+    definirErroContato('perfil', 'perfil-erro', 'Selecione uma opção para continuar.')
+    temErro = true
+  } else {
+    definirErroContato('perfil', 'perfil-erro', '')
+  }
+
+  // Validar assunto (radio buttons)
+  const assuntoSelecionado = document.querySelector('input[name="assunto"]:checked')
+  const erroAssunto = document.getElementById('assunto-erro')
+  if (!assuntoSelecionado) {
+    erroAssunto.innerText = 'Selecione um assunto.'
+    erroAssunto.classList.remove('hidden')
+    temErro = true
+  } else {
+    erroAssunto.innerText = ''
+    erroAssunto.classList.add('hidden')
+  }
+
+  // Validar mensagem
+  const erroMsg = validarMensagemContato(campoMensagem.value)
+  definirErroContato('mensagem', 'mensagem-erro', erroMsg)
+  if (erroMsg) { temErro = true }
+
+  // Validar aceite
+  const campoAceite = document.getElementById('aceite')
+  const erroAceite = document.getElementById('aceite-erro')
+  if (!campoAceite.checked) {
+    erroAceite.innerText = 'Você precisa concordar para enviar a mensagem.'
+    erroAceite.classList.remove('hidden')
+    campoAceite.style.outline = '2px solid var(--color-erro)'
+    temErro = true
+  } else {
+    erroAceite.innerText = ''
+    erroAceite.classList.add('hidden')
+    campoAceite.style.outline = ''
+  }
+
+  // Se há erros, foca no primeiro campo inválido e interrompe
+  if (temErro) {
+    const primeiroErro = formContato.querySelector('[aria-invalid="true"]')
+    if (primeiroErro) {
+      primeiroErro.focus()
+    }
+    return
+  }
+
+  // Tudo válido: exibe confirmação demonstrativa
+  const nomeCompleto = document.getElementById('nome').value.trim()
+  const primeiroNome = nomeCompleto.split(' ')[0]
+  const assunto = assuntoSelecionado.value
+
   const sucesso = document.getElementById('contato-sucesso')
-  sucesso.innerText = `Obrigado, ${nome}! Sua mensagem foi validada. Neste protótipo ela não é enviada.`
+  document.getElementById('contato-sucesso-texto').innerText =
+    `Obrigado, ${primeiroNome}! Sua mensagem sobre "${assunto}" foi recebida com sucesso.`
   sucesso.classList.remove('hidden')
+
+  // Rola até a mensagem de sucesso
+  sucesso.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+
+  // Reseta o formulário e o contador
   formContato.reset()
+  contagem.innerText = '0'
+  contagem.style.color = ''
+  contagem.style.fontWeight = ''
+
+  // Limpa todos os estilos de erro após reset
+  const idsCampos = ['nome', 'email', 'telefone', 'perfil', 'mensagem']
+  for (let i = 0; i < idsCampos.length; i++) {
+    const el = document.getElementById(idsCampos[i])
+    if (el) { el.style.borderColor = ''; el.removeAttribute('aria-invalid') }
+  }
 })
 
 // ---------- 11. Modo escuro (igual ao exemplo da apostila) ----------

@@ -260,25 +260,80 @@
       <p class="mb-6 text-texto-2 dark:text-slate-300">Dúvida, sugestão ou interesse em testar o Raiz. Os campos com <span class="text-erro">*</span> são obrigatórios.</p>
 
       <div class="grid gap-6 lg:grid-cols-3">
-        <!-- A validação é feita pelo próprio HTML5: required, type="email", pattern, minlength e maxlength. -->
-        <form id="form-contato" class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card lg:col-span-2">
-          <p id="contato-sucesso" class="mb-4 hidden rounded-xl bg-sucesso-fundo p-4 font-semibold text-sucesso" role="status"></p>
+        <!-- Validação aprimorada via JavaScript (Fase 4): nome completo, e-mail, mensagem com contador. -->
+        <form id="form-contato" novalidate class="rounded-2xl border border-borda bg-white p-6 dark:border-noite-borda dark:bg-noite-card lg:col-span-2" aria-label="Formulário Fale Conosco">
+          <!-- Mensagem de sucesso após envio demonstrativo -->
+          <div id="contato-sucesso" class="mb-4 hidden rounded-xl bg-sucesso-fundo p-4" role="status" aria-live="polite">
+            <p class="font-semibold text-sucesso" id="contato-sucesso-texto"></p>
+            <p class="mt-1 text-sm text-sucesso">⚠️ Protótipo acadêmico: nenhum dado foi transmitido. Esta é uma demonstração de validação.</p>
+          </div>
           <div class="grid gap-4 sm:grid-cols-2">
+
+            <!-- Campo: Nome completo -->
             <div>
               <label for="nome" class="mb-1 block font-semibold">Nome completo <span class="text-erro">*</span></label>
-              <input type="text" id="nome" name="nome" required minlength="5" maxlength="80" autocomplete="name" pattern="[A-Za-zÀ-ÿ ]+ [A-Za-zÀ-ÿ ]+" title="Escreva nome e sobrenome, só com letras." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                required
+                maxlength="80"
+                autocomplete="name"
+                placeholder="Ex.: João Silva"
+                aria-required="true"
+                aria-describedby="nome-erro"
+                class="fc-campo w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"
+              >
+              <p id="nome-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
             </div>
+
+            <!-- Campo: E-mail -->
             <div>
               <label for="email" class="mb-1 block font-semibold">E-mail <span class="text-erro">*</span></label>
-              <input type="email" id="email" name="email" required maxlength="120" autocomplete="email" placeholder="voce@exemplo.com" class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                maxlength="120"
+                autocomplete="email"
+                placeholder="voce@exemplo.com"
+                aria-required="true"
+                aria-describedby="email-erro"
+                class="fc-campo w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"
+              >
+              <p id="email-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
             </div>
+
+            <!-- Campo: Celular (opcional) -->
             <div>
               <label for="telefone" class="mb-1 block font-semibold">Celular</label>
-              <input type="tel" id="telefone" name="telefone" autocomplete="tel" maxlength="15" pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}" placeholder="(16) 99999-0000" title="Use o formato (16) 99999-0000." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
+                autocomplete="tel"
+                maxlength="15"
+                pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}"
+                inputmode="numeric"
+                placeholder="(16) 99999-0000"
+                aria-describedby="telefone-erro"
+                class="fc-campo w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"
+              >
+              <p id="telefone-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
             </div>
+
+            <!-- Campo: Perfil -->
             <div>
               <label for="perfil" class="mb-1 block font-semibold">Você é <span class="text-erro">*</span></label>
-              <select id="perfil" name="perfil" required class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite">
+              <select
+                id="perfil"
+                name="perfil"
+                required
+                aria-required="true"
+                aria-describedby="perfil-erro"
+                class="fc-campo w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"
+              >
                 <option value="">Escolha uma opção</option>
                 <option>Produtor rural</option>
                 <option>Cooperativa ou associação</option>
@@ -286,27 +341,70 @@
                 <option>Técnico ou agrônomo</option>
                 <option>Outro</option>
               </select>
+              <p id="perfil-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
             </div>
+
+            <!-- Campo: Assunto -->
             <fieldset class="sm:col-span-2">
               <legend class="mb-2 font-semibold">Assunto <span class="text-erro">*</span></legend>
               <div class="flex flex-wrap gap-6">
-                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Dúvida" required class="size-4 accent-raiz"> Dúvida</label>
-                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Sugestão" class="size-4 accent-raiz"> Sugestão</label>
-                <label class="flex items-center gap-2"><input type="radio" name="assunto" value="Quero testar" id="assunto-testar" class="size-4 accent-raiz"> Quero testar o Raiz</label>
+                <label class="fc-label-radio flex items-center gap-2">
+                  <input type="radio" name="assunto" value="Dúvida" class="size-4 accent-raiz"> Dúvida
+                </label>
+                <label class="fc-label-radio flex items-center gap-2">
+                  <input type="radio" name="assunto" value="Sugestão" class="size-4 accent-raiz"> Sugestão
+                </label>
+                <label class="fc-label-radio flex items-center gap-2">
+                  <input type="radio" name="assunto" value="Quero testar" id="assunto-testar" class="size-4 accent-raiz"> Quero testar o Raiz
+                </label>
               </div>
+              <p id="assunto-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
             </fieldset>
+
+            <!-- Campo: Mensagem com contador de caracteres -->
             <div class="sm:col-span-2">
-              <label for="mensagem" class="mb-1 block font-semibold">Mensagem <span class="text-erro">*</span></label>
-              <textarea id="mensagem" name="mensagem" rows="5" required minlength="20" maxlength="500" placeholder="Escreva pelo menos 20 caracteres." class="w-full rounded-xl border border-borda bg-white px-4 py-3 user-invalid:border-erro dark:border-noite-borda dark:bg-noite"></textarea>
+              <label for="mensagem" class="mb-1 block font-semibold">Mensagem <span class="text-erro">*</span> <span class="text-sm font-normal text-texto-2">(mín. 20, máx. 500 caracteres)</span></label>
+              <textarea
+                id="mensagem"
+                name="mensagem"
+                rows="5"
+                required
+                minlength="20"
+                maxlength="500"
+                placeholder="Escreva sua mensagem (mínimo 20, máximo 500 caracteres)."
+                aria-required="true"
+                aria-describedby="mensagem-erro mensagem-contador"
+                class="fc-campo w-full rounded-xl border border-borda bg-white px-4 py-3 dark:border-noite-borda dark:bg-noite"
+              ></textarea>
+              <div class="fc-contador-row mt-1">
+                <p id="mensagem-erro" class="hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
+                <p id="mensagem-contador" class="text-sm text-texto-2 dark:text-slate-300" aria-live="polite" aria-label="Contador de caracteres da mensagem">
+                  <span id="mensagem-contagem">0</span>/500 caracteres
+                </p>
+              </div>
             </div>
-            <label class="flex items-start gap-2 sm:col-span-2">
-              <input type="checkbox" id="aceite" name="aceite" required class="mt-1 size-4 accent-raiz">
-              <span>Concordo que meus dados sejam usados só para responder este contato. <span class="text-erro">*</span></span>
-            </label>
+
+            <!-- Campo: Aceite -->
+            <div class="sm:col-span-2">
+              <label class="fc-label-radio flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="aceite"
+                  name="aceite"
+                  required
+                  aria-required="true"
+                  aria-describedby="aceite-erro"
+                  class="mt-1 size-4 accent-raiz"
+                >
+                <span>Concordo que meus dados sejam usados só para responder este contato. <span class="text-erro">*</span></span>
+              </label>
+              <p id="aceite-erro" class="mt-1 hidden text-sm font-semibold text-erro" role="alert" aria-live="assertive"></p>
+            </div>
+
           </div>
           <div class="mt-6 flex flex-wrap gap-3">
             <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-raiz px-6 py-3 font-semibold text-white duration-300 hover:bg-raiz-escuro">Enviar mensagem <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12H20M14 6L20 12L14 18"/></svg></button>
-            <button type="reset" class="inline-flex items-center justify-center rounded-xl border-2 border-raiz px-6 py-3 font-semibold text-raiz duration-300 hover:bg-raiz hover:text-white dark:border-broto dark:text-broto">Limpar</button>
+            <button type="reset" id="btn-limpar-contato" class="inline-flex items-center justify-center rounded-xl border-2 border-raiz px-6 py-3 font-semibold text-raiz duration-300 hover:bg-raiz hover:text-white dark:border-broto dark:text-broto">Limpar</button>
           </div>
         </form>
 
